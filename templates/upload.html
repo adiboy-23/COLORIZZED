@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Upload and Download</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Poppins", sans-serif;
+        background: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1600px;
+        gap: 80px;
+      }
+
+      .upload-section,
+      .download-section {
+        flex: 1;
+        padding: 60px;
+        box-sizing: border-box;
+      }
+
+      .upload-section {
+        padding-left: 100px;
+        border-right: 2px solid white;
+      }
+
+      .download-section {
+        padding-right: 100px;
+      }
+
+      .upload-section h2,
+      .download-section h2 {
+        margin-top: 0;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      input[type="file"] {
+        display: block;
+        margin: 20px auto;
+      }
+
+      #uploaded-image,
+      #colorized-image {
+        max-width: 100%;
+        margin-top: 20px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        display: none;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+        display: block;
+        text-align: center;
+      }
+
+      .button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="upload-section">
+        <h2>Upload Black & White Image</h2>
+        <input type="file" id="bw-image-input" accept="image/*" />
+        <button class="button" id="convert-button">Convert</button>
+        <img id="uploaded-image" src="#" alt="Uploaded Image Preview" />
+      </div>
+
+      <div class="download-section">
+        <h2>Colorized Image</h2>
+        <img id="colorized-image" src="#" alt="Colorized Image Preview" />
+        <a
+          id="download-button"
+          href="#"
+          download="colorized-image.jpg"
+          class="button hidden"
+          >Download Colorized Image</a
+        >
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("bw-image-input")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const uploadedImage = document.getElementById("uploaded-image");
+            uploadedImage.src = e.target.result;
+            uploadedImage.style.display = "block";
+          };
+
+          if (file) {
+            reader.readAsDataURL(file);
+          }
+        });
+
+      document
+        .getElementById("convert-button")
+        .addEventListener("click", function () {
+          const fileInput = document.getElementById("bw-image-input");
+          const file = fileInput.files[0];
+
+          if (!file) {
+            alert("Please upload an image first.");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          fetch("/change", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.blob())
+            .then((blob) => {
+              const colorizedImageUrl = URL.createObjectURL(blob);
+              const colorizedImage = document.getElementById("colorized-image");
+              colorizedImage.src = colorizedImageUrl;
+              colorizedImage.style.display = "block";
+
+              const downloadButton = document.getElementById("download-button");
+              downloadButton.href = colorizedImageUrl;
+              downloadButton.classList.remove("hidden");
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to convert the image.");
+            });
+        });
+    </script>
+  </body>
+</html>

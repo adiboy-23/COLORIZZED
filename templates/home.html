@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COLORIZZED</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Poppins", sans-serif;
+        background: black;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        user-select: none;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        position: relative;
+        text-align: center;
+      }
+
+      #colorizzed-title {
+        font-size: 10em;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+        line-height: 1;
+      }
+
+      .char {
+        display: inline-block;
+        transition: color 0.5s ease;
+      }
+
+      .gray {
+        color: gray;
+      }
+
+      .white {
+        color: white;
+      }
+
+      .color1 {
+        color: #ff6347;
+      }
+
+      .color2 {
+        color: #ffa500;
+      }
+
+      .color3 {
+        color: #ffff00;
+      }
+
+      .color4 {
+        color: #adff2f;
+      }
+
+      .color5 {
+        color: #00ff7f;
+      }
+
+      .color6 {
+        color: #00ced1;
+      }
+
+      .color7 {
+        color: #1e90ff;
+      }
+
+      .color8 {
+        color: #da70d6;
+      }
+
+      .slider-container {
+        margin-top: 20px;
+      }
+
+      .vertical-slider {
+        position: absolute;
+        top: 50%;
+        height: 300px;
+        width: 10px;
+        background: linear-gradient(135deg, #ff8c00, #ff4500);
+        border-radius: 15px;
+        box-shadow:
+          0 4px 10px rgba(0, 0, 0, 0.3),
+          0 0 15px rgba(255, 69, 0, 0.5);
+        cursor: ew-resize;
+        transform: translateY(-50%);
+        z-index: 2;
+        transition:
+          left 0.2s ease,
+          box-shadow 0.3s ease,
+          transform 0.2s ease;
+        animation: glow 3s infinite alternate;
+        touch-action: none;
+      }
+
+      .vertical-slider:hover {
+        transform: translateY(-50%) scale(1.1);
+        box-shadow:
+          0 6px 20px rgba(255, 165, 0, 0.7),
+          0 0 20px rgba(255, 69, 0, 0.7);
+      }
+
+      @keyframes glow {
+        0% {
+          background: linear-gradient(135deg, #ff8c00, #ff4500);
+        }
+        50% {
+          background: linear-gradient(135deg, #ff69b4, #8a2be2);
+        }
+        100% {
+          background: linear-gradient(135deg, #00ced1, #1e90ff);
+        }
+      }
+
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+      }
+
+      .change-button {
+        position: relative;
+        display: inline-block;
+        font-family: "Open Sans", sans-serif;
+        text-transform: uppercase;
+        line-height: 40px;
+        text-decoration: none;
+        text-align: center;
+        letter-spacing: 1px;
+        color: #fff;
+        outline: 0;
+        cursor: pointer;
+        margin-top: 60px;
+      }
+
+      .change-button:hover::after {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+        background: linear-gradient(
+          135deg,
+          #ff6347,
+          #ffa500,
+          #ffff00,
+          #adff2f,
+          #00ff7f,
+          #00ced1,
+          #1e90ff,
+          #da70d6
+        );
+      }
+
+      .change-button:hover::before {
+        opacity: 0;
+        transform: translateY(50%) rotateX(90deg);
+      }
+
+      .change-button::after {
+        content: attr(data-back);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        color: #323237;
+        background: #adadaf;
+        transform: translateY(-50%) rotateX(90deg);
+        opacity: 0;
+        transition: 0.5s;
+      }
+
+      .change-button::before {
+        content: attr(data-front);
+        position: relative;
+        top: 0;
+        left: 0;
+        display: block;
+        padding: 0 30px;
+        line-height: 40px;
+        background: #323237;
+        color: #adadaf;
+        transform: translateY(0) rotateX(0);
+        transition: 0.5s;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+      <h1 id="colorizzed-title">
+        <span class="char gray" data-index="1">C</span>
+        <span class="char white" data-index="2">O</span>
+        <span class="char gray" data-index="3">L</span>
+        <span class="char white" data-index="4">O</span>
+        <span class="char gray" data-index="5">R</span>
+        <div class="vertical-slider" id="slider"></div>
+        <span class="char color1" data-index="6">I</span>
+        <span class="char color2" data-index="7">Z</span>
+        <span class="char color3" data-index="8">Z</span>
+        <span class="char color4" data-index="9">E</span>
+        <span class="char color5" data-index="10">D</span>
+      </h1>
+      <a
+        href="#"
+        class="change-button"
+        data-back="COLORFUL WORLD"
+        data-front="LETS GO FROM B&W TO"
+        onclick="window.location.href='/change';"
+      ></a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+
+    <script>
+      particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 150,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#ffffff",
+          },
+          shape: {
+            type: "circle",
+            stroke: {
+              width: 0,
+              color: "#000000",
+            },
+            polygon: {
+              nb_sides: 5,
+            },
+          },
+          opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+              enable: false,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 6,
+            random: true,
+            anim: {
+              enable: true,
+              speed: 10,
+              size_min: 0.1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#ffffff",
+            opacity: 0.6,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 8,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200,
+            },
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse",
+            },
+            onclick: {
+              enable: true,
+              mode: "push",
+            },
+            resize: true,
+          },
+          modes: {
+            grab: {
+              distance: 400,
+              line_linked: {
+                opacity: 1,
+              },
+            },
+            bubble: {
+              distance: 400,
+              size: 40,
+              duration: 2,
+              opacity: 8,
+              speed: 3,
+            },
+            repulse: {
+              distance: 100,
+              duration: 0.4,
+            },
+            push: {
+              particles_nb: 4,
+            },
+            remove: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      });
+
+      const slider = document.getElementById("slider");
+      const chars = document.querySelectorAll(".char");
+
+      const initialCharR = document.querySelectorAll(".gray").length;
+      const sliderWidth = 10;
+      const initialColorChars = 8;
+      const maxSliderWidth = initialCharR + initialColorChars + sliderWidth;
+
+      function updateTextColors(sliderPos) {
+        chars.forEach((char, index) => {
+          const charIndex = Number(char.dataset.index);
+          if (charIndex <= sliderPos) {
+            char.className = `char color${charIndex % 8}`;
+          } else {
+            char.className = charIndex % 2 === 0 ? "char white" : "char gray";
+          }
+        });
+      }
+
+      slider.addEventListener("mousedown", (e) => {
+        let sliderPos = (e.clientX / window.innerWidth) * maxSliderWidth;
+
+        const onMouseMove = (moveEvent) => {
+          sliderPos = Math.max(
+            0,
+            Math.min(
+              maxSliderWidth,
+              (moveEvent.clientX / window.innerWidth) * maxSliderWidth,
+            ),
+          );
+          slider.style.left = `${(sliderPos / maxSliderWidth) * 100}%`;
+          updateTextColors(sliderPos);
+        };
+
+        const onMouseUp = () => {
+          window.removeEventListener("mousemove", onMouseMove);
+          window.removeEventListener("mouseup", onMouseUp);
+        };
+
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+      });
+    </script>
+  </body>
+</html>
